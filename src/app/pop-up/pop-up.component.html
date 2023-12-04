@@ -1,0 +1,26 @@
+<div class="popup-overlay">
+  <div class="popup-content">
+    <button type="button" class="btn btn-outline-dark float-right" style="margin-bottom: 10px;" aria-label="Close" (click)="onCloseClick()">X</button>
+
+    <form [formGroup]="formData" (ngSubmit)="onSubmit()" class="border p-3 rounded" style="max-width: 100%;" >
+        <div *ngFor="let form of formGroupsControl; let i=index" formArrayName="addMoreValues" class="mb-3 row mb-4">
+          <div [formGroupName]="i" class="row mb-4">
+          <div class="form-group col-6 d-flex ">
+            <label for="size" style="margin-top: 15px; font-size: large;">Title</label>
+            <input class="form-control" formControlName="size" type="text" placeholder="Enter type">
+            <button class="btn btn-primary" style="height: 40px;">+</button>
+
+          </div>
+          <div class="form-group col-6">
+            <label for="Options">Type</label>
+            <select id="Options" formControlName="Options">
+              <option *ngFor="let op of options">{{op}}</option>
+            </select>
+          </div>
+          </div>
+        </div>
+      <button type="button" class="btn btn-primary" (click)="addForm()">Add more</button>
+      <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
