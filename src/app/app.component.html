@@ -6,7 +6,6 @@
 
 <div class="form1">
   <form [formGroup]="dataForm"  (ngSubmit)="onSubmit()" class="border p-3 rounded" style="max-width: 100%;" >
-    <button></button>
 
     <div *ngFor="let form of getFoodsControls; let i=index" formArrayName="foods" >
       <div [formGroupName]="i" class="row mb-4">
