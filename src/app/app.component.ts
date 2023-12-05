@@ -72,13 +72,11 @@ export class AppComponent implements OnInit {
 
   openPopup(): void {
     this.isPopupVisible = true;
-
-    
   }
 
   closePopup(): void {
     this.isPopupVisible = false;
-  }
+  } 
 
   handleFormData(formData: any) {
     this.formData = formData;

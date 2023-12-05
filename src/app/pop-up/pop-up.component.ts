@@ -1,5 +1,9 @@
+// type: ['', Validators.required],
+// select: ['Choose', Validators.required],
+// addMore: this.fb.array([this.createForm()]),
+
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { FormGroup, FormArray, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray,AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-pop-up',
@@ -7,71 +11,65 @@ import { FormGroup, FormArray, FormControl, Validators, FormBuilder } from '@ang
   styleUrls: ['./pop-up.component.css']
 })
 export class PopUpComponent implements OnInit {
+  title = 'add More Value';
+  @Input() isOpen = false;
   formData!: FormGroup;
-
   @Output() closePopup = new EventEmitter<void>();
-  @Output() formDataSubmitted = new EventEmitter<any>();
-  @Input() prodname = '';
-  options: string[] = ['single value select', 'multiple select'];
+  dialogWidth: string = '400px';
+  items!: FormArray;
 
-  constructor(private fb: FormBuilder) {
-    this.formData=this.fb.group({
-      thisInput: this.fb.array([])
-
-    })
-  }
-
-  get dynamicFieldControls() {
-    return (this.formData.get('sizes') as FormArray);
-  }
-
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.formData = this.fb.group({
-      addMoreValues: this.fb.array([this.createGroupForm()]),
-      sizes: this.fb.array([this.createSizeControl()]),
+      addForms : new FormArray([this.createItem()])
     });
-  }
-
-  createSizeControl() {
-    return this.fb.control('', Validators.required);
-  }
-
-  get sizeControls() {
-    return (this.formData.get('sizes') as FormArray);
   }
 
   onCloseClick(): void {
+    this.isOpen = false;
     this.closePopup.emit();
   }
 
-  get formGroupsControl() {
-    return (this.formData.get('addMoreValues') as FormArray)?.controls as FormGroup[] || [];
-  }
-
-  createGroupForm(): FormGroup {
+  createForm(): FormGroup {
     return this.fb.group({
-      size: ['', Validators.required],
-      Options: ['', Validators.required],
+      name: ['', Validators.required],
+      price: ['', Validators.required],
     });
   }
 
-  createDynamicField() {
-    return this.fb.control('', Validators.required);
+  get getFoodsControls() {
+    return (this.formData.get('addMore') as FormArray)?.controls as FormGroup[] || [];
   }
 
-  addForm() {
-    const formGroupsArray = this.formData.get('addMoreValues') as FormArray;
-    formGroupsArray.push(this.createGroupForm());
+  addMore() {
+    const controls = this.formData.get('addMore') as FormArray;
+    controls.push(this.createForm());
+  }
+  createItem(): FormGroup {
+    return this.fb.group({
+      type: ['', Validators.required],
+      select: ['Choose', Validators.required],
+      addMore: this.fb.array([this.createForm()]),
+    })
+  }
+
+  get addFormsArray(): FormArray | null {
+    return this.formData.get('addForms') as FormArray | null;
+  }
+  
+  get getFormsControls(): AbstractControl[] {
+    const addFormsArray = this.addFormsArray;
+    return addFormsArray ? addFormsArray.controls : [];
+  }
+  
+
+  addWholeNew(){
+    this.items = this.formData.get('addForms') as FormArray;
+    this.items.push(this.createItem());
   }
 
   onSubmit() {
-    this.formDataSubmitted.emit(this.formData.value);
-    this.closePopup.emit();
-
-  }
-
-  addField(){
-    this.dynamicFieldControls.push(this.createDynamicField());
+    console.log('Form Data:', this.formData.value);
   }
 }

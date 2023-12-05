@@ -6,6 +6,7 @@
 
 <div class="form1">
   <form [formGroup]="dataForm"  (ngSubmit)="onSubmit()" class="border p-3 rounded" style="max-width: 100%;" >
+    <button></button>
 
     <div *ngFor="let form of getFoodsControls; let i=index" formArrayName="foods" >
       <div [formGroupName]="i" class="row mb-4">
@@ -43,11 +44,11 @@
         <label for="Price">Price</label>
         <input type="number"  id="Price" formControlName="Price" class="form-control chake-box" required>
       </div>
-
-      <div class="form-group form-check" style="text-align: left;">
+      <div class="form-group form-check" style="text-align: left;" *ngIf="form.controls['veg']">
         <label for="veg" class="form-check-label">Veg</label><br>
         <input type="checkbox" id="veg" formControlName="veg" class="form-check-input" required>
       </div>
+      
 
       <div class="form-group col-1">
         <label for="size">add size and ver..</label>
@@ -64,4 +65,4 @@
 <div *ngFor="let item of formData.addMoreValues">
   <p>Size: {{ item.size }} - Option: {{ item.option }}</p>
 </div>
-<app-pop-up *ngIf="isPopupVisible" (closePopup)="closePopup()" (formDataSubmitted)="handleFormData($event)"></app-pop-up>
+<app-pop-up *ngIf="isPopupVisible" (closePopup)="closePopup()" [isOpen]="isPopupVisible" (formDataSubmitted)="handleFormData($event)"></app-pop-up>
