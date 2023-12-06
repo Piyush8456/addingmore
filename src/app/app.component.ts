@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
         image: ['', Validators.required],
         details: ['', Validators.required],
         Price: ['', Validators.required],
+        veg: [false],  
       });
     }
     

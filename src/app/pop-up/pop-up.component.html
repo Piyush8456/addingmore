@@ -2,48 +2,45 @@
   <div class="dialog-content main">
     <div class="dialog-header">
       <span>{{ title }}</span>
-      <div class="text-center" >
-        <button type="button" class="btn btn-primary" (click)="addWholeNew()">Add a new form</button>
+      <div class="text-center">
       </div>
-      
-      <button class="float-end" style="float: right; margin-left: 20px" (click)="onCloseClick()">
-        X
-      </button>
+      <button class="float-end" style="float: right; margin-left: 20px" (click)="onCloseClick()">X</button>
     </div>
     <form [formGroup]="formData">
       <div class="dialog-body">
-        <div class="row mb-2 form-inline" formArrayName="items"  
-        *ngFor="let item of getFormsControls; let i = index;"> 
-          <div class="col-4">
-            <input class="form-control" style="margin-right: 10px" formControlName="type" placeholder="Enter type"
-              id="ex2" type="text" />
+        <div >
+          <div class="row mb-2 form-inline">
+            <div class="col-4">
+              <input class="form-control" style="margin-right: 10px" formControlName="type" placeholder="Enter type" id="ex2" type="text" />
+            </div>
+            <div class="col-6">
+              <select id="inputState" class="form-control col-5" formControlName="options">
+                <option value="choose" selected>Choose</option>
+                <option>Single Selection</option>
+                <option>Multiple Selection</option>
+              </select>
+            </div>
           </div>
-          <div class="col-6">
-            <select id="inputState" class="form-control col-5" formControlName="select">
-              <option selected>Choose</option>
-              <option>Single Selection</option>
-              <option>Multiple Selection</option>
-            </select>
+          <div class="row mb-2 ml-3 form-inline">
+            <div class="col-4">
+              <div *ngFor="let formGroup of getAddMoreControls(); let j = index" [formGroup]="formGroup" class="row mb-2">
+                <div class="col-6" >
+                  <input class="form-control" formControlName="name"  placeholder="Enter name" id="ex3" type="text" />
+                </div>
+                <div class="col-6">
+                  <input class="form-control" formControlName="price" placeholder="Enter price" id="ex-5" type="text" />
+                </div>
+              </div>
+              
+
+              
+              <button class="btn btn-success" (click)="addMore()">+</button>
+            </div>
           </div>
         </div>
-        <div class="row mb-2 form-inline">
-          <div class="col-4">
-            <div class="row mb-2 form-inline" formGroupName="addMore">
-              <div *ngFor="let control of getFoodsControls; let i = index" [formGroupName]="i" class="col-6">
-                <input class="form-control" formControlName="name" placeholder="Enter name" id="ex3" type="text" />
-                <input class="form-control" formControlName="price" placeholder="Enter price" id="ex-3" type="text" />
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <button class="btn btn-success" (click)="addMore()" style="margin-left: 400px;">+</button>
-            <div class="row mt-3">
-              <div class="col-12">
-                <button (click)="onSubmit()" type="button" class="btn btn-light" style="margin-top: 40px; margin-left: 400px;">
-                  Submit
-                </button>
-              </div>
-            </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <button (click)="onSubmit()" type="button" class="btn btn-light">Submit</button>
           </div>
         </div>
       </div>
